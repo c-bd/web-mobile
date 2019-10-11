@@ -5,6 +5,11 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      name: 'login',
+      path: '/login',
+      component: () => import('@/views/login')
+    }
 
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
