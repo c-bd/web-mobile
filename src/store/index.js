@@ -10,7 +10,9 @@ export default new Vuex.Store({
   mutations: {
 
   },
+  // context环境  上下文
   actions: {
 
   }
+
 })
