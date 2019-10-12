@@ -15,7 +15,12 @@ import {
   Field,
   Toast,
   Tabbar,
-  TabbarItem
+  TabbarItem,
+  Search,
+  Tab,
+  Tabs,
+  List,
+  PullRefresh
 
 } from 'vant'
 Vue.config.productionTip = false
@@ -28,6 +33,11 @@ Vue
   .use(Toast)
   .use(Tabbar)
   .use(TabbarItem)
+  .use(Search)
+  .use(Tab)
+  .use(Tabs)
+  .use(List)
+  .use(PullRefresh)
 for (let rule in rules) {
   extend(rule, {
     ...rules[rule], // add the rule

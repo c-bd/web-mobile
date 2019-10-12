@@ -8,7 +8,13 @@ export default new Router({
     {
       path: '/',
       component: Tabbar,
-      children: []
+      children: [
+        {
+          name: 'home',
+          path: '', // 什么都不写默认子路由
+          component: () => import('@/views/home')
+        }
+      ]
     },
     {
       name: 'login',
