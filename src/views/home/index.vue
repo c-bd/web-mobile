@@ -6,20 +6,30 @@
         <van-tab v-for="item in channels" :key="item.id" :title="item.name" swipeable>
             <!-- 内容列表 -->
             <van-pull-refresh v-model="channels.pullDownLoading" @refresh="onRefresh">
+                <!-- v-model="channels.loading"  控制上拉加载更多 loading效果
+                :finished="channels.finished" 控制是否加载完成
+                finished-text="没有更多了"  加载结束提示信息
+                @load="onLoad"上拉加载更多触发得事件 -->
                 <van-list
                 v-model="channels.loading"
                 :finished="channels.finished"
                 finished-text="没有更多了"
                 @load="onLoad"
                 >
-                <van-cell
+               <van-cell
                 v-for="article in channels.articles"
                 :key="article.art_id.toString()"
                 :title="article.title"
-                />
+              />
+              <van-grid :border="false" :column-num="3">
+                <!-- <van-grid-item
+                v-for="(img,index) in article.cover.images" :key="index"
+                >
+                  <van-image :src="img" height="80" lazy-load/> -->
+                <!-- </van-grid-item> -->
+              </van-grid>
             </van-list>
             </van-pull-refresh>
-
         </van-tab>
       </van-tabs>
   </div>
@@ -32,10 +42,10 @@ export default {
   name: 'HomeIndex',
   data () {
     return {
-      active: 2, // 控制当前激活的标签页
+      active: 0, // 控制当前激活的标签页
       channels: [], // 频道列表
-      loading: false, // 控制内容列表得加载状态
-      finished: false, // 是否已经加载完成，加载完成后不再触发load事件
+      // loading: false, // 控制内容列表得加载状态
+      // finished: false, // 是否已经加载完成，加载完成后不再触发load事件
       list: []
     }
   },
@@ -50,17 +60,13 @@ export default {
     // 下拉方法
     async onRefresh () {
       const currentChannel = this.currentChannel
-      console.log(currentChannel)
-
       const data = await getArticls({
         channelId: currentChannel.id, // 当前频道
         timestamp: Date.now(), // 这里我们如果时第一页 那么就是最新的时间戳  如果是下一页或者是上一页 那么就是返回数据结果中的时间戳
         withTop: 1
       })
-
       // 2. 将数据添加到当前频道.articles数据中（顶部）
       currentChannel.articles.unshift(...data.data)
-
       // 3. 关闭当前频道下拉刷新的 loading 状态
       currentChannel.pullDownLoading = false
       // 4. 提示用户刷新成功
@@ -75,8 +81,8 @@ export default {
       // item就是数组里面的值
       data.data.channels.forEach(item => {
         item.articles = []// 频道文章列表
-        item.loading = false
-        item.finished = false
+        item.loading = false// 是否加载
+        item.finished = false// 是否加载结束
         item.timestamp = null // 用于获取下一页数据的时间戳（页码）
         item.pullDownLoading = false // 频道的下拉刷新 loading 状态
       })
@@ -85,24 +91,26 @@ export default {
     // 滚动条与底部距离小于 offset 时触发
     async onLoad () {
       const currentChannel = this.currentChannel
-      const data = await getArticls({
+      const { data } = await getArticls({
         channelId: currentChannel.id, // 当前频道
         timestamp: currentChannel.timestamp || Date.now(), // 这里我们如果时第一页 那么就是最新的时间戳  如果是下一页或者是上一页 那么就是返回数据结果中的时间戳
         withTop: 1
       })
-      // 2.将得到的文章里表添加到当前的actils中
-      const { pre_timestamp: preTimestamp, results } = data.data
+
+      // 2.将得到的文章列表添加到当前的actils中
+      const { results } = data.data
+
       // currentChannel.articles.concat(results) // 之前合并数组的方式
       currentChannel.articles.push(...results) // es6 也可以这么玩儿
       // 3. 本次 onLoad 数据加载完毕，将 loading 设置为 false
       currentChannel.loading = false
       // 4. 判断是否还有下一页数据
-      if (!preTimestamp) {
-        currentChannel.finished = true
-      } else {
-        // 还有数据，将本次得到的 preTimestamp 存储到当前频道，用于加载下一页数据
-        currentChannel.timestamp = preTimestamp
-      }
+      // if (!preTimestamp) {
+      //   currentChannel.finished = true
+      // } else {
+      //   // 还有数据，将本次得到的 preTimestamp 存储到当前频道，用于加载下一页数据
+      //   currentChannel.timestamp = preTimestamp
+      // }
     }
   },
   created () {
