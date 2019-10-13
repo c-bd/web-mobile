@@ -1,7 +1,8 @@
 import axios from 'axios'
 import JSONbig from 'json-bigint'
 // 因为现在的token存储在vuex得数据data中所以我们这里需要引入然后从这里获取user得数据也就是token令牌
-// -----------------------------import store from '@/store'----------------------------
+import store from '@/store'
+
 // axios.create 方法
 // 建议使用 create 方式，我们可以拥有
 // 说白了就是复制了一个 axios，拥有和 axios 完全一样的功能，但是配置可以不一样
@@ -23,11 +24,11 @@ request.defaults.transformResponse = [function (data) {
 }]
 // 设置请求拦截器
 request.interceptors.request.use(function (config) {
-  // const token = store.state.user// vuex得方式来处理
-  const token = window.localStorage.getItem('user')
+  const user = store.state.user// vuex得方式来处理\
+  // const token = window.localStorage.getItem('user')
   // 则合理我们判断一下如果有token那么在将请求头放入请求体中
-  if (token) {
-    config.headers['Authorization'] = `Bearer ${token}`
+  if (user) {
+    config.headers['Authorization'] = `Bearer ${user.token}`
     return config
   }
 }, function (error) {

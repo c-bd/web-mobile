@@ -32,7 +32,7 @@ export default {
   name: 'HomeIndex',
   data () {
     return {
-      active: 0, // 控制当前激活的标签页
+      active: 2, // 控制当前激活的标签页
       channels: [], // 频道列表
       loading: false, // 控制内容列表得加载状态
       finished: false, // 是否已经加载完成，加载完成后不再触发load事件
@@ -50,17 +50,19 @@ export default {
     // 下拉方法
     async onRefresh () {
       const currentChannel = this.currentChannel
+      console.log(currentChannel)
+
       const data = await getArticls({
-        channel_id: currentChannel.id, // 当前频道
+        channelId: currentChannel.id, // 当前频道
         timestamp: Date.now(), // 这里我们如果时第一页 那么就是最新的时间戳  如果是下一页或者是上一页 那么就是返回数据结果中的时间戳
         withTop: 1
       })
+
       // 2. 将数据添加到当前频道.articles数据中（顶部）
-      currentChannel.articles.unshift(...data.data.results)
+      currentChannel.articles.unshift(...data.data)
 
       // 3. 关闭当前频道下拉刷新的 loading 状态
       currentChannel.pullDownLoading = false
-
       // 4. 提示用户刷新成功
       this.$toast('刷新成功')
     },
@@ -69,7 +71,6 @@ export default {
     // 每个频道都有自己得文章列表[]   和控制加载状态的值和视口已经加载完成得处理值
     async getChannels () {
       const { data } = await getALLChannels()
-
       //   在这里获取到得数据我们填入一些数据进去到列表的中
       // item就是数组里面的值
       data.data.channels.forEach(item => {
@@ -85,7 +86,7 @@ export default {
     async onLoad () {
       const currentChannel = this.currentChannel
       const data = await getArticls({
-        channel_id: currentChannel.id, // 当前频道
+        channelId: currentChannel.id, // 当前频道
         timestamp: currentChannel.timestamp || Date.now(), // 这里我们如果时第一页 那么就是最新的时间戳  如果是下一页或者是上一页 那么就是返回数据结果中的时间戳
         withTop: 1
       })
@@ -93,10 +94,8 @@ export default {
       const { pre_timestamp: preTimestamp, results } = data.data
       // currentChannel.articles.concat(results) // 之前合并数组的方式
       currentChannel.articles.push(...results) // es6 也可以这么玩儿
-
       // 3. 本次 onLoad 数据加载完毕，将 loading 设置为 false
       currentChannel.loading = false
-
       // 4. 判断是否还有下一页数据
       if (!preTimestamp) {
         currentChannel.finished = true
@@ -106,7 +105,6 @@ export default {
       }
     }
   },
-
   created () {
     this.getChannels()
   }

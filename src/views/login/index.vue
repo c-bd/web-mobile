@@ -37,6 +37,7 @@
 <script>
 // import { mapMutations } from 'vuex'//  -------------引入vuex------
 import { login, mobile } from '@/api/user'
+import { setItem } from '@/utils/storage'
 export default {
   name: 'LoginIndex',
   data () {
@@ -45,7 +46,6 @@ export default {
       useForm: {
         mobile: '18334794147',
         code: '246810'
-
       }
     }
   },
@@ -66,11 +66,13 @@ export default {
         this.isLoding = true
         // 请求提交表单数据
         const { data } = await login(this.useForm)
-        window.localStorage.setItem('user', data.data.token)
-        console.log(window.localStorage)
+
+        // window.localStorage.setItem('user', data.data.token)
         // 我们这里临时使用本地存储得方法来存储token 来完成后面的逻辑
         this.$toast.success('登陆成功')
-        // this.getToken(data.data)//登陆成功吧相应得token存储在vuex中去
+        this.$store.commit('getToken', data.data)// 登陆成功吧token存储到vuex中
+        setItem('user', data.data)
+        // 登陆成功吧相应得token存储在vuex中去
         this.$router.push({ name: 'home' })
         // 成功后关闭加载状态
         this.isLoding = false
