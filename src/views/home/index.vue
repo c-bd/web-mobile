@@ -1,6 +1,16 @@
 <template>
   <div class="home">
-      <van-search placeholder="搜索" input-align="center" shape="round" background="#3196fa" />
+    <van-nav-bar fixed >
+      <van-button
+      type="info"
+      slot="title"
+      class="search"
+      size="small"
+      round>
+        <van-icon name="search" color="#fff" size="20px" @click="$router.push('/search')"/>搜索
+      </van-button>
+    </van-nav-bar>
+      <van-button />
           <!-- 频道列表 -->
         <van-tabs v-model="active" swipeable>
           <div class="wap-nav" @click="show=true" slot="nav-right">
@@ -223,9 +233,13 @@ export default {
 .home{
     .van-search{
         padding: 10px 40px;
+    }
+    .search{
+      width: 100%;
+      background: #5babfb;
+      margin-top:8px;
 
     }
-
     .van-tabs {
       // 这样可以获取到子组件中的类名来设置样式
     /deep/ .van-tabs__wrap {
