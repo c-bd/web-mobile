@@ -163,7 +163,7 @@ export default {
       // item就是数组里面的值
       channels.forEach(item => {
         item.articles = []// 频道文章列表
-        item.loading = true// 是否加载
+        item.loading = false// 是否加载
         item.finished = false// 是否加载结束
         item.timestamp = null // 用于获取下一页数据的时间戳（页码）
         item.isLoading = false // 频道的下拉刷新 loading 状态
@@ -188,14 +188,11 @@ export default {
         timestamp: activeChannel.timestamp || Date.now(), // 时间戳，请求新的推荐数据传当前的时间戳，请求历史推荐传指定的时间戳
         with_top: 1 // 是否包含置顶，进入页面第一次请求时要包含置顶文章，1-包含置顶，0-不包含
       })
-
       // 2. 将数据添加到当前频道.articles中
       // activeChannel.articles = activeChannel.articles.concat(data.data.results)
       activeChannel.articles.push(...data.data.results)
-
       // 3. 结束当前频道.loging = false
       activeChannel.loading = false
-
       // 4. 如果还有下一页数据
       if (data.data.pre_timestamp) {
         // 更新获取下一页数据的页码时间戳
