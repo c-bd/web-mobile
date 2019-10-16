@@ -121,7 +121,9 @@ export default {
     // 获取全部频道
     async loadAllChannels () {
       const { data } = await getALLChannels()
-      this.allChannels = data.data.channels
+      const channels = data.data.channels
+      this.extendData(channels)
+      this.allChannels = channels
     },
     // 点击下面得列表里的数据上到我的频道中
     onAddChannel (channel) {
@@ -161,6 +163,14 @@ export default {
       }
       //   在这里获取到得数据我们填入一些数据进去到列表的中
       // item就是数组里面的值
+      this.extendData(channels)
+      // console.log(channels)
+
+      this.channels = channels
+      // this.channels.loading = false
+      // this.channels.finished = true
+    },
+    extendData (channels) {
       channels.forEach(item => {
         item.articles = []// 频道文章列表
         item.loading = false// 是否加载
@@ -168,11 +178,6 @@ export default {
         item.timestamp = null // 用于获取下一页数据的时间戳（页码）
         item.isLoading = false // 频道的下拉刷新 loading 状态
       })
-      // console.log(channels)
-
-      this.channels = channels
-      // this.channels.loading = false
-      // this.channels.finished = true
     },
     // 滚动条与底部距离小于 offset 时触发
     async onLoad () {
@@ -191,8 +196,10 @@ export default {
       // 2. 将数据添加到当前频道.articles中
       // activeChannel.articles = activeChannel.articles.concat(data.data.results)
       activeChannel.articles.push(...data.data.results)
+
       // 3. 结束当前频道.loging = false
       activeChannel.loading = false
+
       // 4. 如果还有下一页数据
       if (data.data.pre_timestamp) {
         // 更新获取下一页数据的页码时间戳
@@ -223,7 +230,7 @@ export default {
       // 这样可以获取到子组件中的类名来设置样式
     /deep/ .van-tabs__wrap {
       position: fixed;
-      top: 46px;
+      top: 54px;
       z-index: 2;
       left: 0;
       right: 15px;
