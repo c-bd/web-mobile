@@ -17,9 +17,19 @@ export default new Router({
       ]
     },
     {
+      name: 'search-result',
+      path: '/search/:q',
+      component: () => import('@/views/search-result')
+    },
+    {
       name: 'login',
       path: '/login',
       component: () => import('@/views/login')
+    },
+    {
+      name: 'search',
+      path: '/search',
+      component: () => import('@/views/search')
     }
 
     // route level code-splitting
