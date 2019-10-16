@@ -25,7 +25,9 @@ import {
   Grid,
   GridItem,
   Image,
-  Lazyload
+  Lazyload,
+  Popup,
+  Icon
 
 } from 'vant'
 Vue.config.productionTip = false
@@ -48,6 +50,8 @@ Vue
   .use(GridItem)
   .use(Image)
   .use(Lazyload)
+  .use(Popup)
+  .use(Icon)
 for (let rule in rules) {
   extend(rule, {
     ...rules[rule], // add the rule
