@@ -20,7 +20,7 @@
         <!-- 文章列表 -->
         <van-pull-refresh v-model="channel.isLoading" @refresh="onRefresh">
         <van-list v-model="channel.loading" :finished="channel.finished" finished-text="没有更多了" @load="onLoad">
-          <van-cell v-for="(article,index) in channel.articles" :key="index" :title="article.title" >
+          <van-cell v-for="(article,index) in channel.articles" :key="index" :title="article.title" @click="$router.push(`/artilce/${article.art_id}`)">
             <div slot="label">
                     <van-grid :border="false" :column-num="3">
                       <van-grid-item v-for="(img, index) in article.cover.images" :key="index">

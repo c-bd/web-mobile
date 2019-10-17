@@ -16,6 +16,7 @@
         v-for="(item,index) in list"
         :key="index"
         :title="item.title"
+        @click="$router.push(`/artilce/${item.art_id}`)"
         />
         </van-list>
   </div>
@@ -43,9 +44,10 @@ export default {
         q: this.$route.params.q
       })
       this.list.push(...data.data.results)
+
       this.loading = false// 结束加载 满一屏幕
       //   判断还有没有数据
-      if (data.data.page) {
+      if (data.data.results.lenght) {
         //   如果还有下一页 那么 就让当前页++ 变成新的一页
         this.page++
       } else {

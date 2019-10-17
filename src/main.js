@@ -27,7 +27,8 @@ import {
   Image,
   Lazyload,
   Popup,
-  Icon
+  Icon,
+  Loading
 
 } from 'vant'
 Vue.config.productionTip = false
@@ -52,6 +53,7 @@ Vue
   .use(Lazyload)
   .use(Popup)
   .use(Icon)
+  .use(Loading)
 for (let rule in rules) {
   extend(rule, {
     ...rules[rule], // add the rule
