@@ -15,3 +15,20 @@ export const mobile = data => {
     url: `/app/v1_0/sms/codes/${data.mobile}`
   })
 }
+// 关注用户
+export const followings = data => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/user/followings',
+    data: {
+      target: data
+    }
+  })
+}
+// 取消关注用户
+export function unFollowUser (userId) {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/user/followings/${userId}`
+  })
+}

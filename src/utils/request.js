@@ -23,7 +23,7 @@ request.defaults.transformResponse = [function (data) {
   // }
 }]
 // 设置请求拦截器
-axios.interceptors.request.use(function (config) {
+request.interceptors.request.use(function (config) {
   const user = store.state.user// vuex得方式来处理\
   // const token = window.localStorage.getItem('user')
   // 则合理我们判断一下如果有token那么在将请求头放入请求体中
