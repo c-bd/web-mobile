@@ -3,7 +3,7 @@ import JSONbig from 'json-bigint'
 // 因为现在的token存储在vuex得数据data中所以我们这里需要引入然后从这里获取user得数据也就是token令牌
 import store from '@/store'
 
-// axios.create 方法
+// axios.create (创造)方法
 // 建议使用 create 方式，我们可以拥有
 // 说白了就是复制了一个 axios，拥有和 axios 完全一样的功能，但是配置可以不一样
 // 例如我们可以创建多个请求对象，而不同的请求对象拥有不同的 baseURL

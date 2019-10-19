@@ -110,9 +110,10 @@ export default {
     async onCommentLike (comment) {
       const artileid = comment.com_id.toString()
       if (comment.is_liking) {
-        deleteCommentLike(artileid)
+        debugger
+        await deleteCommentLike(artileid)
       } else {
-        addCommentLike(artileid)
+        await addCommentLike(artileid)
       }
       comment.is_liking = !comment.is_liking
     },

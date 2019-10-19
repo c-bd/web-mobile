@@ -28,7 +28,11 @@ import {
   Lazyload,
   Popup,
   Icon,
-  Loading
+  Loading,
+  Uploader,
+  Dialog,
+  ActionSheet,
+  DatetimePicker
 
 } from 'vant'
 Vue.config.productionTip = false
@@ -54,6 +58,10 @@ Vue
   .use(Popup)
   .use(Icon)
   .use(Loading)
+  .use(Uploader)
+  .use(Dialog)
+  .use(ActionSheet)
+  .use(DatetimePicker)
 for (let rule in rules) {
   extend(rule, {
     ...rules[rule], // add the rule

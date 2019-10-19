@@ -83,10 +83,10 @@ export default {
       const articleId = this.article.art_id.toString()
       if (this.article.attitude === 0) {
         await deleteDislike(articleId)
-        this.this.article.attitude = -1
+        this.article.attitude = -1
       } else {
         await addDislike(articleId)
-        this.this.article.attitude = 0
+        this.article.attitude = 0
       }
     },
     // 关注用户

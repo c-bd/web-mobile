@@ -62,7 +62,7 @@
         </div>
         <van-icon
           slot="right-icon"
-          :name="item.is_liking ? 'like' : 'like-o'"
+          :name="item.is_liking? 'like' : 'like-o'"
           @click="onCommentLike(item)"
         />
       </van-cell>
@@ -114,9 +114,7 @@ export default {
     // 发布评论
     async commentForm () {
       const contentText = this.commentText.trim()
-      if (!contentText) {
-        return
-      }
+      if (!contentText) return
       const { data } = await addComment({
         target: this.$route.params.article_id,
         // 清空输入框
@@ -129,12 +127,7 @@ export default {
     // 点击收藏
     async onCommentLike (comment) {
       const artileid = comment.com_id.toString()
-      if (comment.is_liking) {
-        deleteCommentLike(artileid)
-      } else {
-        addCommentLike(artileid)
-      }
-      comment.is_liking = !comment.is_liking
+      comment.is_liking ? await deleteCommentLike(artileid) : await addCommentLike(artileid)
     },
     // 加载评论列表
     async onLoad () {
@@ -145,9 +138,7 @@ export default {
       })
       this.list.push(...data.data.results)
       this.loading = false
-      if (data.data.results.length) {
-        this.offset = data.data.last_id
-      }
+      if (data.data.results.length) this.offset = data.data.last_id
       this.finished = true
     }
   }
